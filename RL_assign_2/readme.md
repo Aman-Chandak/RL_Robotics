@@ -1,5 +1,3 @@
-Below is a comprehensive README you can drop next to your script. It explains the code block-by-block, shows the data flow during training, and documents every hyperparameter with practical tuning tips.
-
 Title: DQN for 3×4 Stochastic Gridworld (with Adam + MSE)
 
 Overview
