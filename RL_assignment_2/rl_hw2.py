@@ -206,7 +206,6 @@ def run_dqn(
 
                 # Standard DQN Target
                 with torch.no_grad():
-                    # Y = r + gamma * max_a' Q_target(s', a')
                     Qsp = qt(SP_oh).max(dim=1, keepdim=True).values
                     Y = R_t + (1.0 - D_t) * gamma * Qsp
 
@@ -231,7 +230,7 @@ def run_dqn(
         if (ep + 1) % target_update_every == 0:
             qt.load_state_dict(q.state_dict())
 
-    # ----------- Plots and Results -----------
+    # Plots and Results 
     returns_ma = movavg(returns, 50)
     success_ma = movavg(success, 50)
     
@@ -269,7 +268,7 @@ def run_dqn(
         plot_filename = 'plots/main_learning_curves.png'
         plt.savefig(plot_filename)
         print(f"Saved main learning curves to {plot_filename}")
-        plt.close(fig) # Close the figure to free memory
+        plt.close(fig) 
 
         # Heatmap of Q(s,a) for all actions
         with torch.no_grad():
@@ -339,7 +338,7 @@ def run_dqn(
         
         for row_str in policy_grid:
             print(row_str)
-        print("\n--- Q-Values Detail ---")
+        print("\nQ-Values Detail")
         for line in q_value_details:
             print(line)
         print("="*30 + "\n")
@@ -350,7 +349,7 @@ def run_hyperparameter_comparison():
     """
     Runs experiments for different hyperparameters and saves comparison plots.
     """
-    print("\n--- Running Hyperparameter Comparison ---")
+    print("\nRunning Hyperparameter Comparison")
     # Ensure 'plots' directory exists
     if not os.path.exists('plots'):
         os.makedirs('plots')
@@ -369,7 +368,7 @@ def run_hyperparameter_comparison():
             episodes=comparison_episodes, 
             lr=lr, 
             seed=42, 
-            save_plots=False # Use save_plots, not show_plots
+            save_plots=False
         )
         lr_results[lr] = returns_ma
         print(f"  Finished in {time.time() - start_time:.2f}s")
@@ -397,7 +396,7 @@ def run_hyperparameter_comparison():
             episodes=comparison_episodes, 
             gamma=gamma, 
             seed=42, 
-            save_plots=False # Use save_plots, not show_plots
+            save_plots=False
         )
         gamma_results[gamma] = returns_ma
         print(f"  Finished in {time.time() - start_time:.2f}s")
@@ -425,7 +424,7 @@ def run_hyperparameter_comparison():
             episodes=comparison_episodes, 
             batch_size=batch_size, 
             seed=42, 
-            save_plots=False # Use save_plots, not show_plots
+            save_plots=False
         )
         batch_results[batch_size] = returns_ma
         print(f"  Finished in {time.time() - start_time:.2f}s")
@@ -453,7 +452,7 @@ def run_hyperparameter_comparison():
             episodes=comparison_episodes, 
             hidden_size=hidden_size, 
             seed=42, 
-            save_plots=False # Use save_plots, not show_plots
+            save_plots=False 
         )
         hidden_results[hidden_size] = returns_ma
         print(f"  Finished in {time.time() - start_time:.2f}s")
@@ -470,13 +469,13 @@ def run_hyperparameter_comparison():
     print(f"Saved Hidden Size comparison plot to {plot_filename}")
     plt.close()
     
-    print("--- Hyperparameter Comparison Finished ---")
+    print("Hyperparameter Comparison Finished")
 
 
 if __name__ == '__main__':
     
     # Run the main, full experiment first
-    print("--- Running Main Experiment ---")
+    print("Running Main Experiment")
     run_dqn(
         episodes=2500,
         max_steps=50,
@@ -491,7 +490,7 @@ if __name__ == '__main__':
         seed=123,
         device='cpu',
         hidden_size=64,
-        save_plots=True  # Ensure this is True for the main run
+        save_plots=True 
     )
     
     # Run the hyperparameter comparison experiments
